@@ -50,21 +50,25 @@ class _HomePageState extends State<HomePage> {
           if (!snapshot.hasData) {
             return Skeleton();
           } else {
-            if (snapshot.data.isEmpty) {
-              return Container();
-            } else {
-              var dados = snapshot.data;
-              return ListView.builder(
-                itemCount: dados.length,
+            var enderecos = snapshot.data;
+            return Visibility(
+              visible: enderecos.isNotEmpty,
+              replacement: Center(child:Text('Não tem nada')),
+              child: ListView.builder(
+                itemCount: enderecos.length,
                 itemBuilder: (_, index) {
+                  var endereco = enderecos[index];
                   return ListTile(
-                    leading: Icon(Icons.location_city, size: 50,),
-                    title: Text(dados[index].logradouro),
-                    subtitle: Text(dados[index].bairro),
+                    leading: Icon(
+                      Icons.location_city,
+                      size: 50,
+                    ),
+                    title: Text(endereco.endereco),
+                    subtitle: Text(endereco.bairro),
                   );
                 },
-              );
-            }
+              ),
+            );
           }
         },
       ),
